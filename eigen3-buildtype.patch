@@ -1,0 +1,16 @@
+--- eigen-eigen-13a11181fc5a/CMakeLists.txt.orig	2011-12-06 14:15:10.000000000 +0100
++++ eigen-eigen-13a11181fc5a/CMakeLists.txt	2012-01-31 17:26:58.373450532 +0100
+@@ -14,13 +14,6 @@
+   set(CMAKE_BUILD_TYPE "Release")
+ endif()
+ 
+-string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_tolower)
+-if(    NOT cmake_build_type_tolower STREQUAL "debug"
+-   AND NOT cmake_build_type_tolower STREQUAL "release"
+-   AND NOT cmake_build_type_tolower STREQUAL "relwithdebinfo")
+-  message(FATAL_ERROR "Unknown build type \"${CMAKE_BUILD_TYPE}\". Allowed values are Debug, Release, RelWithDebInfo (case-insensitive).")
+-endif()
+-
+ 
+ #############################################################################
+ # retrieve version infomation                                               #
