@@ -2,7 +2,7 @@ Summary:	C++ template library for linear algebra
 Summary(pl.UTF-8):	Biblioteka szablonów C++ do algebry liniowej
 Name:		eigen3
 Version:	3.2.2
-Release:	2
+Release:	3
 License:	LGPL v3+ or GPL v2+
 Group:		Development/Libraries
 #Source0Download: http://eigen.tuxfamily.org/index.php?title=Main_Page
