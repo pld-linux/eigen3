@@ -1,8 +1,13 @@
+#
+# Conditional build:
+%bcond_with	tests
+%bcond_without	gdb		# GDB pretty printers
+
 Summary:	C++ template library for linear algebra
 Summary(pl.UTF-8):	Biblioteka szablonów C++ do algebry liniowej
 Name:		eigen3
 Version:	3.2.4
-Release:	0.1
+Release:	1
 License:	LGPL v3+ or GPL v2+
 Group:		Development/Libraries
 #Source0Download: http://eigen.tuxfamily.org/index.php?title=Main_Page
@@ -11,6 +16,7 @@ Source0:	https://bitbucket.org/eigen/eigen/get/%{version}.tar.bz2
 Patch0:		%{name}-buildtype.patch
 URL:		http://eigen.tuxfamily.org/
 BuildRequires:	cmake >= 2.8.2
+%{?with_gdb:BuildRequires:	python-modules}
 BuildRequires:	rpmbuild(macros) >= 1.605
 Requires:	libstdc++-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -47,6 +53,35 @@ Obsługuje bez powielania kodu i w całkowicie zintegrowany sposób:
    algebry liniowej, geometrii, kwaternionów i zaawansowanych operacji
    na tablicach.
 
+%package gdb
+Summary:	eigen3 pretty printers for GDB
+Summary(pl.UTF-8):	Funkcje wypisujące dane eigen3 dla GDB
+Group:		Development/Debuggers
+
+%description gdb
+This package contains Python scripts for GDB pretty printing of the
+eigen3 types/containers.
+To use it add:
+
+python
+from eigen3.printers import register_eigen_printers
+register_eigen_printers (None)
+end
+
+to a ~/.gdbinit file.
+
+%description gdb -l pl.UTF-8
+Ten pakiet zawiera skrypty Pythona dla GDB służące do ładnego
+wypisywania typów i kontenerów eigen3.
+Aby użyć skryptów trzeba dodać:
+
+python
+from eigen3.printers import register_eigen_printers
+register_eigen_printers (None)
+end
+
+do pliku ~/.gdbinit .
+
 %prep
 %setup -q -n eigen-eigen-10219c95fe65
 %patch0 -p1
@@ -60,11 +95,23 @@ cd build
 
 %{__make}
 
+%if %{with tests}
+%{__make} check 2>&1 ||:
+%endif
+
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+%if %{with gdb}
+install -D debug/gdb/printers.py $RPM_BUILD_ROOT%{_datadir}/gdb/python/%{name}/printers.py
+touch $RPM_BUILD_ROOT%{_datadir}/gdb/python/%{name}/__init__.py
+%py_comp $RPM_BUILD_ROOT%{_datadir}/gdb/python/%{name}
+%py_ocomp $RPM_BUILD_ROOT%{_datadir}/gdb/python/%{name}
+%py_postclean %{_datadir}/gdb/python/%{name}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -73,3 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_includedir}/eigen3
 %{_npkgconfigdir}/eigen3.pc
+
+%if %{with gdb}
+%files gdb
+%defattr(644,root,root,755)
+%{_datadir}/gdb/python/%{name}
+%endif
