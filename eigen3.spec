@@ -1,18 +1,18 @@
 #
 # Conditional build:
-%bcond_with	tests
+%bcond_with	tests		# make check (takes very long time, few tests fail)
 %bcond_without	gdb		# GDB pretty printers
 
 Summary:	C++ template library for linear algebra
 Summary(pl.UTF-8):	Biblioteka szablonów C++ do algebry liniowej
 Name:		eigen3
-Version:	3.2.4
+Version:	3.2.5
 Release:	1
 License:	LGPL v3+ or GPL v2+
 Group:		Development/Libraries
 #Source0Download: http://eigen.tuxfamily.org/index.php?title=Main_Page
 Source0:	https://bitbucket.org/eigen/eigen/get/%{version}.tar.bz2
-# Source0-md5:	4c4b5ed9a388a1e475166d575af25477
+# Source0-md5:	21a928f6e0f1c7f24b6f63ff823593f5
 Patch0:		%{name}-buildtype.patch
 URL:		http://eigen.tuxfamily.org/
 BuildRequires:	cmake >= 2.8.2
@@ -83,7 +83,7 @@ end
 do pliku ~/.gdbinit .
 
 %prep
-%setup -q -n eigen-eigen-10219c95fe65
+%setup -q -n eigen-eigen-bdd17ee3b1b3
 %patch0 -p1
 
 %build
@@ -96,7 +96,7 @@ cd build
 %{__make}
 
 %if %{with tests}
-%{__make} check 2>&1 ||:
+%{__make} check
 %endif
 
 %install
