@@ -1,0 +1,8 @@
+--- eigen-eigen-b30b87236a1b/eigen3.pc.in~	2015-11-05 15:56:09.000000000 +0100
++++ eigen-eigen-b30b87236a1b/eigen3.pc.in	2015-11-23 19:27:52.734187104 +0100
+@@ -3,4 +3,4 @@
+ Requires:
+ Version: ${EIGEN_VERSION_NUMBER}
+ Libs:
+-Cflags: -I${INCLUDE_INSTALL_DIR}
++Cflags: -I${CMAKE_INSTALL_PREFIX}/${INCLUDE_INSTALL_DIR}
