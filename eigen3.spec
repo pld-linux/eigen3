@@ -6,17 +6,16 @@
 Summary:	C++ template library for linear algebra
 Summary(pl.UTF-8):	Biblioteka szablonów C++ do algebry liniowej
 Name:		eigen3
-Version:	3.2.7
-Release:	2
+Version:	3.2.8
+Release:	1
 License:	LGPL v3+ or GPL v2+
 Group:		Development/Libraries
 #Source0Download: http://eigen.tuxfamily.org/index.php?title=Main_Page
 Source0:	https://bitbucket.org/eigen/eigen/get/%{version}.tar.bz2
-# Source0-md5:	cc1bacbad97558b97da6b77c9644f184
+# Source0-md5:	9e3bfaaab3db18253cfd87ea697b3ab1
 Patch0:		%{name}-buildtype.patch
-Patch1:		pkgconfig.patch
 URL:		http://eigen.tuxfamily.org/
-BuildRequires:	cmake >= 2.8.2
+BuildRequires:	cmake >= 2.8.5
 %{?with_gdb:BuildRequires:	python-modules}
 BuildRequires:	rpmbuild(macros) >= 1.605
 Requires:	libstdc++-devel
@@ -84,16 +83,17 @@ end
 do pliku ~/.gdbinit .
 
 %prep
-%setup -q -n eigen-eigen-b30b87236a1b
+%setup -q -n eigen-eigen-07105f7124f9
 %patch0 -p1
-%patch1 -p1
 
 %build
 install -d build
 cd build
+# CMakeLists.txt requires CMAKE_INSTALL_INCLUDEDIR to be relative (for proper .pc file generation)
 %cmake .. \
 	-DCMAKE_CXX_COMPILER_WORKS=1 \
-	-DCMAKE_CXX_COMPILER="%{__cxx}"
+	-DCMAKE_CXX_COMPILER="%{__cxx}" \
+	-DCMAKE_INSTALL_INCLUDEDIR:PATH=include
 
 %{__make}
 
