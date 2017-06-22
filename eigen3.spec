@@ -6,13 +6,13 @@
 Summary:	C++ template library for linear algebra
 Summary(pl.UTF-8):	Biblioteka szablonów C++ do algebry liniowej
 Name:		eigen3
-Version:	3.2.8
+Version:	3.3.4
 Release:	1
 License:	LGPL v3+ or GPL v2+
 Group:		Development/Libraries
 #Source0Download: http://eigen.tuxfamily.org/index.php?title=Main_Page
 Source0:	https://bitbucket.org/eigen/eigen/get/%{version}.tar.bz2
-# Source0-md5:	9e3bfaaab3db18253cfd87ea697b3ab1
+# Source0-md5:	a7aab9f758249b86c93221ad417fbe18
 Patch0:		%{name}-buildtype.patch
 URL:		http://eigen.tuxfamily.org/
 BuildRequires:	cmake >= 2.8.5
@@ -83,7 +83,7 @@ end
 do pliku ~/.gdbinit .
 
 %prep
-%setup -q -n eigen-eigen-07105f7124f9
+%setup -q -n eigen-eigen-5a0156e40feb
 %patch0 -p1
 
 %build
@@ -122,6 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_includedir}/eigen3
 %{_npkgconfigdir}/eigen3.pc
+%dir %{_datadir}/eigen3
+%{_datadir}/eigen3/cmake
 
 %if %{with gdb}
 %files gdb
