@@ -18,6 +18,7 @@ BuildRequires:	cmake >= 3.5.0
 %{?with_gdb:BuildRequires:	python-modules}
 BuildRequires:	rpmbuild(macros) >= 1.605
 Requires:	libstdc++-devel
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
